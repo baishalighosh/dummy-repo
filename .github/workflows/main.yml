@@ -1,6 +1,6 @@
 on:
   schedule: # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule
-    - cron: '20/15 * * * 1,2,3,4,5'
+    - cron: '0/5 * * * 1-5' # Run every 15 min on Mon - Fri.
 name: create-pull-request workflow
 jobs:
   backmergeDevelopToSprint:
@@ -12,7 +12,7 @@ jobs:
      - name: Create Pull Request
        uses: peter-evans/create-pull-request@v3
        with:
-          token: ${{ secrets.ACTIONS_SECRET }}
+          token: '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'
           commit-message: Backmerge develop to sprint branch
           title: '[Example] Develop to sprint branch'
           body: >
