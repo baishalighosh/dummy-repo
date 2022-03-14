@@ -12,7 +12,7 @@ jobs:
      - name: Create Pull Request
        uses: peter-evans/create-pull-request@v3
        with:
-          token: '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'
+          token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: Backmerge develop to sprint branch
           title: '[Example] Develop to sprint branch'
           body: >
