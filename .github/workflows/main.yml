@@ -1,6 +1,6 @@
 on:
   schedule: # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule
-    - cron: '5/2 * * * *' # Run every 15 min on Mon - Fri.
+    - cron: '*/5 * * * *' # Run every 15 min on Mon - Fri.
 name: create-pull-request workflow
 jobs:
   backmergeDevelopToSprint:
