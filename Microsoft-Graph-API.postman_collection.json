@@ -1,0 +1,1070 @@
+{
+	"info": {
+		"_postman_id": "01DSYtDuSUbxRe6XECQ6cMS4",
+		"name": "Microsoft Graph API Collection",
+		"description": "Comprehensive collection for Microsoft Graph APIs including user management, mail, calendar, groups, files, and Teams operations.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{access_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"variable": [
+		{
+			"key": "access_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "graph_url",
+			"value": "https://graph.microsoft.com/v1.0",
+			"type": "string"
+		},
+		{
+			"key": "beta_url",
+			"value": "https://graph.microsoft.com/beta",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get My Profile",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{graph_url}}/me",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"me"
+							]
+						},
+						"description": "Retrieve the properties and relationships of the signed-in user."
+					}
+				},
+				{
+					"name": "List All Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{graph_url}}/users",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"users"
+							]
+						},
+						"description": "Retrieve a list of user objects in the organization."
+					}
+				},
+				{
+					"name": "Get User by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{graph_url}}/users/{user-id}",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"users",
+								"{user-id}"
+							]
+						},
+						"description": "Retrieve the properties and relationships of a specific user."
+					}
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"accountEnabled\": true,\n  \"displayName\": \"John Doe\",\n  \"mailNickname\": \"johndoe\",\n  \"userPrincipalName\": \"johndoe@contoso.com\",\n  \"passwordProfile\": {\n    \"forceChangePasswordNextSignIn\": true,\n    \"password\": \"xWwvJ]6NMw+bWH-d\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{graph_url}}/users",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"users"
+							]
+						},
+						"description": "Create a new user in Azure AD."
+					}
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"displayName\": \"Updated Name\",\n  \"jobTitle\": \"Senior Developer\"\n}"
+						},
+						"url": {
+							"raw": "{{graph_url}}/users/{user-id}",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"users",
+								"{user-id}"
+							]
+						},
+						"description": "Update the properties of a user object."
+					}
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{graph_url}}/users/{user-id}",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"users",
+								"{user-id}"
+							]
+						},
+						"description": "Delete a user from Azure AD."
+					}
+				}
+			],
+			"description": "User management operations including CRUD operations for Azure AD users."
+		},
+		{
+			"name": "Mail",
+			"item": [
+				{
+					"name": "List Messages",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{graph_url}}/me/messages",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"me",
+								"messages"
+							]
+						},
+						"description": "Get the messages in the signed-in user's mailbox."
+					}
+				},
+				{
+					"name": "Get Message by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{graph_url}}/me/messages/{message-id}",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"me",
+								"messages",
+								"{message-id}"
+							]
+						},
+						"description": "Retrieve a specific message from the user's mailbox."
+					}
+				},
+				{
+					"name": "Send Mail",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"message\": {\n    \"subject\": \"Test Email\",\n    \"body\": {\n      \"contentType\": \"HTML\",\n      \"content\": \"This is a test email sent via Microsoft Graph API.\"\n    },\n    \"toRecipients\": [\n      {\n        \"emailAddress\": {\n          \"address\": \"recipient@example.com\"\n        }\n      }\n    ]\n  },\n  \"saveToSentItems\": true\n}"
+						},
+						"url": {
+							"raw": "{{graph_url}}/me/sendMail",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"me",
+								"sendMail"
+							]
+						},
+						"description": "Send an email message on behalf of the signed-in user."
+					}
+				},
+				{
+					"name": "List Mail Folders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{graph_url}}/me/mailFolders",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"me",
+								"mailFolders"
+							]
+						},
+						"description": "Get the mail folder collection in the signed-in user's mailbox."
+					}
+				},
+				{
+					"name": "Create Draft Message",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"subject\": \"Draft Message\",\n  \"body\": {\n    \"contentType\": \"HTML\",\n    \"content\": \"This is a draft message.\"\n  },\n  \"toRecipients\": [\n    {\n      \"emailAddress\": {\n        \"address\": \"recipient@example.com\"\n      }\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{graph_url}}/me/messages",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"me",
+								"messages"
+							]
+						},
+						"description": "Create a draft message in the user's mailbox."
+					}
+				}
+			],
+			"description": "Mail and messaging operations including sending emails, reading messages, and managing mail folders."
+		},
+		{
+			"name": "Calendar",
+			"item": [
+				{
+					"name": "List Events",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{graph_url}}/me/events",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"me",
+								"events"
+							]
+						},
+						"description": "Get the events in the signed-in user's calendar."
+					}
+				},
+				{
+					"name": "Create Event",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"subject\": \"Team Meeting\",\n  \"body\": {\n    \"contentType\": \"HTML\",\n    \"content\": \"Discuss project updates\"\n  },\n  \"start\": {\n    \"dateTime\": \"2025-11-20T14:00:00\",\n    \"timeZone\": \"UTC\"\n  },\n  \"end\": {\n    \"dateTime\": \"2025-11-20T15:00:00\",\n    \"timeZone\": \"UTC\"\n  },\n  \"location\": {\n    \"displayName\": \"Conference Room A\"\n  },\n  \"attendees\": [\n    {\n      \"emailAddress\": {\n        \"address\": \"attendee@example.com\",\n        \"name\": \"Attendee Name\"\n      },\n      \"type\": \"required\"\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{graph_url}}/me/events",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"me",
+								"events"
+							]
+						},
+						"description": "Create a new event in the user's default calendar."
+					}
+				},
+				{
+					"name": "Get Event by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{graph_url}}/me/events/{event-id}",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"me",
+								"events",
+								"{event-id}"
+							]
+						},
+						"description": "Retrieve a specific event from the user's calendar."
+					}
+				},
+				{
+					"name": "Update Event",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"subject\": \"Updated Team Meeting\",\n  \"location\": {\n    \"displayName\": \"Conference Room B\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{graph_url}}/me/events/{event-id}",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"me",
+								"events",
+								"{event-id}"
+							]
+						},
+						"description": "Update the properties of an event."
+					}
+				},
+				{
+					"name": "Delete Event",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{graph_url}}/me/events/{event-id}",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"me",
+								"events",
+								"{event-id}"
+							]
+						},
+						"description": "Delete an event from the user's calendar."
+					}
+				},
+				{
+					"name": "List Calendars",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{graph_url}}/me/calendars",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"me",
+								"calendars"
+							]
+						},
+						"description": "Get all the user's calendars."
+					}
+				}
+			],
+			"description": "Calendar operations including creating, reading, updating, and deleting events."
+		},
+		{
+			"name": "Groups",
+			"item": [
+				{
+					"name": "List Groups",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{graph_url}}/groups",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"groups"
+							]
+						},
+						"description": "List all groups in the organization."
+					}
+				},
+				{
+					"name": "Get Group by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{graph_url}}/groups/{group-id}",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"groups",
+								"{group-id}"
+							]
+						},
+						"description": "Get the properties of a specific group."
+					}
+				},
+				{
+					"name": "Create Group",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"displayName\": \"Development Team\",\n  \"mailEnabled\": true,\n  \"mailNickname\": \"devteam\",\n  \"securityEnabled\": false,\n  \"groupTypes\": [\"Unified\"]\n}"
+						},
+						"url": {
+							"raw": "{{graph_url}}/groups",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"groups"
+							]
+						},
+						"description": "Create a new Microsoft 365 group."
+					}
+				},
+				{
+					"name": "List Group Members",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{graph_url}}/groups/{group-id}/members",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"groups",
+								"{group-id}",
+								"members"
+							]
+						},
+						"description": "Get a list of the group's direct members."
+					}
+				},
+				{
+					"name": "Add Member to Group",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"@odata.id\": \"https://graph.microsoft.com/v1.0/users/{user-id}\"\n}"
+						},
+						"url": {
+							"raw": "{{graph_url}}/groups/{group-id}/members/$ref",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"groups",
+								"{group-id}",
+								"members",
+								"$ref"
+							]
+						},
+						"description": "Add a member to a group."
+					}
+				},
+				{
+					"name": "Remove Member from Group",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{graph_url}}/groups/{group-id}/members/{user-id}/$ref",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"groups",
+								"{group-id}",
+								"members",
+								"{user-id}",
+								"$ref"
+							]
+						},
+						"description": "Remove a member from a group."
+					}
+				}
+			],
+			"description": "Group management operations including creating groups and managing memberships."
+		},
+		{
+			"name": "OneDrive",
+			"item": [
+				{
+					"name": "Get My Drive",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{graph_url}}/me/drive",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"me",
+								"drive"
+							]
+						},
+						"description": "Get the user's OneDrive metadata."
+					}
+				},
+				{
+					"name": "List Root Items",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{graph_url}}/me/drive/root/children",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"me",
+								"drive",
+								"root",
+								"children"
+							]
+						},
+						"description": "List items in the root of the user's drive."
+					}
+				},
+				{
+					"name": "Get Item by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{graph_url}}/me/drive/items/{item-id}",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"me",
+								"drive",
+								"items",
+								"{item-id}"
+							]
+						},
+						"description": "Retrieve a specific item's metadata."
+					}
+				},
+				{
+					"name": "Upload File (Simple)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "text/plain"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "File content goes here"
+						},
+						"url": {
+							"raw": "{{graph_url}}/me/drive/root:/test.txt:/content",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"me",
+								"drive",
+								"root:",
+								"test.txt:",
+								"content"
+							]
+						},
+						"description": "Upload a small file (< 4MB) to OneDrive."
+					}
+				},
+				{
+					"name": "Download File",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{graph_url}}/me/drive/items/{item-id}/content",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"me",
+								"drive",
+								"items",
+								"{item-id}",
+								"content"
+							]
+						},
+						"description": "Download the contents of a file."
+					}
+				},
+				{
+					"name": "Create Folder",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"New Folder\",\n  \"folder\": {},\n  \"@microsoft.graph.conflictBehavior\": \"rename\"\n}"
+						},
+						"url": {
+							"raw": "{{graph_url}}/me/drive/root/children",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"me",
+								"drive",
+								"root",
+								"children"
+							]
+						},
+						"description": "Create a new folder in OneDrive."
+					}
+				},
+				{
+					"name": "Delete Item",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{graph_url}}/me/drive/items/{item-id}",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"me",
+								"drive",
+								"items",
+								"{item-id}"
+							]
+						},
+						"description": "Delete a file or folder from OneDrive."
+					}
+				},
+				{
+					"name": "Search Items",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{graph_url}}/me/drive/root/search(q='{search-text}')",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"me",
+								"drive",
+								"root",
+								"search(q='{search-text}')"
+							]
+						},
+						"description": "Search for items in OneDrive."
+					}
+				}
+			],
+			"description": "OneDrive and file operations including file upload, download, and folder management."
+		},
+		{
+			"name": "Teams",
+			"item": [
+				{
+					"name": "List My Teams",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{graph_url}}/me/joinedTeams",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"me",
+								"joinedTeams"
+							]
+						},
+						"description": "Get the teams that the user is a member of."
+					}
+				},
+				{
+					"name": "Get Team by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{graph_url}}/teams/{team-id}",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"teams",
+								"{team-id}"
+							]
+						},
+						"description": "Get the properties of a specific team."
+					}
+				},
+				{
+					"name": "List Channels",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{graph_url}}/teams/{team-id}/channels",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"teams",
+								"{team-id}",
+								"channels"
+							]
+						},
+						"description": "Get the list of channels in a team."
+					}
+				},
+				{
+					"name": "Create Channel",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"displayName\": \"New Channel\",\n  \"description\": \"This is a new channel for project discussions.\",\n  \"membershipType\": \"standard\"\n}"
+						},
+						"url": {
+							"raw": "{{graph_url}}/teams/{team-id}/channels",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"teams",
+								"{team-id}",
+								"channels"
+							]
+						},
+						"description": "Create a new channel in a team."
+					}
+				},
+				{
+					"name": "Send Message to Channel",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"body\": {\n    \"content\": \"Hello team! This is a test message.\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{graph_url}}/teams/{team-id}/channels/{channel-id}/messages",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"teams",
+								"{team-id}",
+								"channels",
+								"{channel-id}",
+								"messages"
+							]
+						},
+						"description": "Send a message to a team channel."
+					}
+				},
+				{
+					"name": "List Channel Messages",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{graph_url}}/teams/{team-id}/channels/{channel-id}/messages",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"teams",
+								"{team-id}",
+								"channels",
+								"{channel-id}",
+								"messages"
+							]
+						},
+						"description": "Retrieve messages from a team channel."
+					}
+				},
+				{
+					"name": "List Team Members",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{graph_url}}/teams/{team-id}/members",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"teams",
+								"{team-id}",
+								"members"
+							]
+						},
+						"description": "Get the members of a team."
+					}
+				}
+			],
+			"description": "Microsoft Teams operations including managing teams, channels, messages, and members."
+		},
+		{
+			"name": "Organization",
+			"item": [
+				{
+					"name": "Get Organization Details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{graph_url}}/organization",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"organization"
+							]
+						},
+						"description": "Retrieve the properties of the organization."
+					}
+				},
+				{
+					"name": "List Subscribed SKUs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{graph_url}}/subscribedSkus",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"subscribedSkus"
+							]
+						},
+						"description": "Get the list of commercial subscriptions that the organization has acquired."
+					}
+				},
+				{
+					"name": "List Domains",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{graph_url}}/domains",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"domains"
+							]
+						},
+						"description": "Retrieve a list of domain objects in the tenant."
+					}
+				}
+			],
+			"description": "Organization-level operations and administrative queries."
+		},
+		{
+			"name": "Security & Compliance",
+			"item": [
+				{
+					"name": "List Security Alerts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{graph_url}}/security/alerts",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"security",
+								"alerts"
+							]
+						},
+						"description": "Retrieve a list of security alerts."
+					}
+				},
+				{
+					"name": "Get Audit Logs - Sign-ins",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{graph_url}}/auditLogs/signIns",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"auditLogs",
+								"signIns"
+							]
+						},
+						"description": "Get sign-in logs for the tenant."
+					}
+				},
+				{
+					"name": "Get Audit Logs - Directory Audits",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{graph_url}}/auditLogs/directoryAudits",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"auditLogs",
+								"directoryAudits"
+							]
+						},
+						"description": "Get directory audit logs for the tenant."
+					}
+				}
+			],
+			"description": "Security and compliance operations including alerts and audit logs."
+		},
+		{
+			"name": "Applications",
+			"item": [
+				{
+					"name": "List Applications",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{graph_url}}/applications",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"applications"
+							]
+						},
+						"description": "Retrieve the list of applications in the organization."
+					}
+				},
+				{
+					"name": "Get Application by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{graph_url}}/applications/{application-id}",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"applications",
+								"{application-id}"
+							]
+						},
+						"description": "Get the properties of a specific application."
+					}
+				},
+				{
+					"name": "List Service Principals",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{graph_url}}/servicePrincipals",
+							"host": [
+								"{{graph_url}}"
+							],
+							"path": [
+								"servicePrincipals"
+							]
+						},
+						"description": "Retrieve the list of service principals in the organization."
+					}
+				}
+			],
+			"description": "Application and service principal management."
+		}
+	]
+}
