@@ -1,0 +1,64 @@
+name: Perplexity Model Monitor
+
+on:
+  schedule:
+    # Run every day at 9 AM UTC
+    - cron: '0 9 * * *'
+  workflow_dispatch: # Allow manual triggering
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  check-models:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Check for model changes
+        id: check
+        run: |
+          python .github/scripts/check_perplexity_models.py
+
+      - name: Commit model changes if any
+        if: steps.check.outputs.changes_detected == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add .github/scripts/perplexity_models.json
+          git commit -m "Update Perplexity model list - $(date +'%Y-%m-%d')" || echo "No changes to commit"
+          git push
+
+      - name: Create issue for model changes
+        if: steps.check.outputs.changes_detected == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const summary = process.env.SUMMARY;
+            const date = new Date().toISOString().split('T')[0];
+
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `🔔 Perplexity Model Changes Detected - ${date}`,
+              body: summary,
+              labels: ['perplexity', 'model-update', 'automated']
+            });
+        env:
+          SUMMARY: ${{ steps.check.outputs.summary }}
+
+      - name: Send notification to Slack (optional)
+        if: steps.check.outputs.changes_detected == 'true' && vars.SLACK_WEBHOOK_URL != ''
+        run: |
+          curl -X POST ${{ vars.SLACK_WEBHOOK_URL }} \
+            -H 'Content-Type: application/json' \
+            -d "{\"text\":\"🔔 Perplexity Model Changes Detected\n\n${{ steps.check.outputs.summary }}\"}"

@@ -1,0 +1,42 @@
+{
+  "last_updated": "2025-11-16T15:14:26.480623",
+  "models": {
+    "sonar": {
+      "name": "sonar",
+      "category": "search",
+      "description": "Lightweight, grounded search model",
+      "base": "Llama 3.3 70B"
+    },
+    "sonar-pro": {
+      "name": "sonar-pro",
+      "category": "search",
+      "description": "Deeper retrieval with follow-ups",
+      "base": "Advanced search model"
+    },
+    "sonar-reasoning": {
+      "name": "sonar-reasoning",
+      "category": "reasoning",
+      "description": "Real-time reasoning with search",
+      "base": "Reasoning-optimized model"
+    },
+    "sonar-reasoning-pro": {
+      "name": "sonar-reasoning-pro",
+      "category": "reasoning",
+      "description": "Advanced reasoning model",
+      "base": "DeepSeek-R1"
+    },
+    "sonar-deep-research": {
+      "name": "sonar-deep-research",
+      "category": "research",
+      "description": "Long-form, source-dense reports",
+      "base": "Research-optimized model"
+    }
+  },
+  "deprecated_models": [
+    "llama-3.1-sonar-small-128k-online",
+    "llama-3.1-sonar-large-128k-online",
+    "llama-3.1-sonar-huge-128k-online",
+    "pplx-7b-online",
+    "pplx-70b-online"
+  ]
+}
